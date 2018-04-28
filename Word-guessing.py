@@ -1,81 +1,82 @@
 import random
 
-LICZBA_GIER = 5
-def los(nazwa_pliku):
-    plik = open(nazwa_pliku)
-    wiersze = 0
-    for lines in plik:
-        wiersze+=1
-    nr_kategorii = random.randint(1,wiersze)
-    plik = open(nazwa_pliku)
+NUMBER_OF_GAMES = 5
+def drawing(file_name):
+    file = open(file_name)
+    rows = 0
+    for lines in file:
+        rows+=1
+    category_number = random.randint(1,rows)
+    file = open(file_name)
     i = 0
-    while i < nr_kategorii:
-        line = plik.readline()    #string
+    while i < category_number:
+        line = file.readline()    #string
         i+=1
     line = line.split(' ')   #lista
     line[-1] = line[-1].rstrip()
-    nr_wyrazu = random.randint(1,len(line)-1)   
-    plik.close
-    return (line[0], line[nr_wyrazu])
+    word_number = random.randint(1,len(line)-1)   
+    file.close
+    return (line[0], line[word_number])
 
 
 
-printer = lambda wyraz: print('      ',wyraz)
+printer = lambda word: print('      ',word)
 
 
 
-def zgadywanie_wyrazu():
-    krotka = los('Kategorie_slowa.txt')
-    punkty = 11
+def wordGuessing():
+    tupl = drawing('Kategorie_slowa.txt')
+    points = 11
     a = 2
     while a != '9':
         print("Aby wylosować kategorię i wyraz do odgadnięcia wpisz '9'",'\n','\n')
         a = input()
-    wyraz = krotka[1]
-    odgadniete = ['-']
-    list_wyraz = list(wyraz)
-    print("Wylosowałeś kategorię ", krotka[0],'\n')
-    litera = 'A'
-    while(litera.isalpha()):
-        punkty -=1
-        wyraz = krotka[1]
-        for lit in list_wyraz:
-            if not(lit in odgadniete):
-                wyraz = wyraz.replace(lit,'-')
-        printer(wyraz)
-        if punkty < 2:
+    word = tupl[1]
+    guessed = ['-']
+    list_word = list(word)
+    print("Wylosowałeś kategorię ", tupl[0],'\n')
+    letter = 'A'
+    while(letter.isalpha()):
+        points -=1
+        word = tupl[1]
+        for let in list_word:
+            if not(let in guessed):
+                word = word.replace(let,'-')
+        printer(word)
+        if points < 2:
             print("///////Wyczerpałeś limit podpowidzi///////",'\n')
             print("Spróbuj zgadnąć odpowiedź aby zdobyć 1 punkt")
             break
         print("Odgadnij literę (wpisuj tylko DUŻE LITERY) lub naciśnij 2 aby odgadnąć wyraz", '\n')
-        litera = input()
-        odgadniete.append(litera)
+        letter = input()
+        guessed.append(letter)
     print("Podaj odpowiedź (Użyj tylko DUŻYCH LITER)")
-    odp = input()
-    if odp == krotka[1]:
-        print("PRAWIDŁOWA ODPOWIEDŹ!!!",'\n',"Uzyskales ",punkty,"punkty/ów za ten wyraz")
+    answer = input()
+    if answer == tupl[1]:
+        print("PRAWIDŁOWA ODPOWIEDŹ!!!",'\n',"Uzyskales ",points,"punkty/ów za ten wyraz")
     else:
-        print("ZŁA ODPOWIEDŹ ","PRAWIDŁOWA ODPOWIEDŹ TO ",krotka[1],'\n')
+        print("ZŁA ODPOWIEDŹ ","PRAWIDŁOWA ODPOWIEDŹ TO ",tupl[1],'\n')
         print("Uzyskales 0 punktów za ten wyraz")
-        punkty = 0
-    return punkty
+        points = 0
+    return points
 
 
 
-def gra(liczba_gier):
-    suma_punktow = 0
+def game(number_of_games):
+    sum_of_points = 0
     i = 0
-    while i < liczba_gier:
-        suma_punktow += zgadywanie_wyrazu()
+    while i < number_of_games:
+        sum_of_points += wordGuessing()
         print('\n','\n')
         i +=1
     print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-    print("KONIEC GRY      UZYSKAŁEŚ ",suma_punktow,"PUNKTY/ÓW W TEJ GRZE")
+    print("KONIEC GRY      UZYSKAŁEŚ ",sum_of_points,"PUNKTY/ÓW W TEJ GRZE")
     A = input()
 
-gra(LICZBA_GIER)
+game(NUMBER_OF_GAMES)
 
           
+        
         
 
     
